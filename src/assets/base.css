@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+:root {
+  --color-white: #ffffff;
+  --color-primary: #3B82F6;
+  --emoji-mart-bottom: 0px;
+  --emoji-mart-left: 0px
+}
+
+* {
+  box-sizing: border-box;
+}
