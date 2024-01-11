@@ -1,5 +1,5 @@
 <template>
-    <div class="flex sm:flex-column flex-column xl:flex-row h-screen p-0 m-0">
+    <div class="flex relative sm:flex-column flex-column xl:flex-row h-screen p-0 m-0 h-auto">
         <div class="xl:col-4">
             <div class="m-3">
                 <div class="flex">
@@ -10,36 +10,21 @@
                         <p class="flex mt-1 text-sm">{{ user !== null ? user.email : 'Carregando' }}</p>
                     </div>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 xl:max-w-17rem md:max-w-17rem">
                     <div v-if="!contacts">
                         <skeletonContacts />
                     </div>
                     <div v-else class="contacts-list">
                         <h2 class="mb-4 text-lg">Contatos</h2>
-                        <a v-for="(contact, index) in contacts" class="flex mb-4 align-items-center"
+                        <a v-for="(contact, index) in contacts" class="flex mb-4 align-items-center flex"
                             @click="chatWithContactSelected(index, contact)">
                             <img :src="contact.photo" style="width: 3rem; height: 3rem; object-fit: contain;" />
                             <div>
-                                <p class="mb-2 ml-2 font-medium">{{ contact.name }}</p>
+                                <p class="ml-2 font-medium">{{ contact.name }}</p>
                             </div>
                         </a>
                     </div>
-                </div>
-                <Divider />
-                <p class="font-semibold text-sm">
-                    Leve seu projeto ou empresa para o próximo nível utilizando o que há de mais moderno em tecnologia.
-                    Vamos conversar?
-                </p>
-                <div class="flex flex-row">
-                    <a class="flex flex-row align-items-center" href="https://github.com/gramderpdp4" target="_blank">
-                        <img :src="github">
-                        <h4 class="ml-1 font-normal" style="color: #000000">André Dev</h4>
-                    </a>
-                    <Divider layout="vertical" />
-                    <a class="flex flex-row align-items-center" href="https://wa.me/+5582981731623" target="_blank">
-                        <img :src="whatsapp">
-                        <h4 class="ml-1 font-normal" style="color: #000000">André Dev</h4>
-                    </a>
+                    <Summary class="hidden xl:block"/>
                 </div>
             </div>
         </div>
@@ -90,7 +75,7 @@
                                         <div class="flex absolute right-0 -mt-6">
                                             <div class="col">
                                                 <Button size="small" rounded raised text class="p-1"
-                                                    @click="showPopupEmojis('you')">
+                                                    @click="showPopupEmojis('you', $event)">
                                                     <span class="material-symbols-outlined">
                                                         mood
                                                     </span>
@@ -103,8 +88,8 @@
                                                     </span>
                                                 </Button>
                                             </div>
-                                            <Picker color="#3B82F6" :showPreview="false" :i18n="chat.i18n" title="André Dev"
-                                                class="hidden picker-emoji-you" emojiTooltip="true"
+                                            <Picker color="#3B82F6" :perLine="7" :showPreview="false" :i18n="chat.i18n" title="André Dev"
+                                                class="hidden picker-emoji-you md" emojiTooltip="true"
                                                 :data="chat.emojiYouIndex" set="facebook"
                                                 @select="(event) => showEmoji(event, 'you')" />
                                         </div>
@@ -156,7 +141,7 @@
                                         <div class="flex absolute right-0 -mt-6">
                                             <div class="col">
                                                 <Button size="small" rounded raised text class="p-1"
-                                                    @click="showPopupEmojis('friend')">
+                                                    @click="showPopupEmojis('friend', $event)">
                                                     <span class="material-symbols-outlined">
                                                         mood
                                                     </span>
@@ -169,7 +154,7 @@
                                                     </span>
                                                 </Button>
                                             </div>
-                                            <Picker color="#3B82F6" :showPreview="false" :i18n="chat.i18n" title="André Dev"
+                                            <Picker color="#3B82F6" :perLine="7" :showPreview="false" :i18n="chat.i18n" title="André Dev"
                                                 class="hidden picker-emoji-friend" emojiTooltip="true"
                                                 :data="chat.emojiFriendIndex" set="facebook"
                                                 @select="(event) => showEmoji(event, 'friend')" />
@@ -182,105 +167,19 @@
                 </div>
             </div>
         </div>
-        <div class="col" style="display: none;">
-            teste
-        </div>
     </div>
+    <Summary class="block xl:hidden m-3 mt-5"/>
 </template>
-<style scoped>
-.phone {
-    padding: 12px;
-    height: 38.5rem;
-    border-radius: 54px;
-    border: 5px solid #84868a;
-    align-self: center;
-    position: relative;
-    box-sizing: border-box;
-}
-
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #6a6a6a;
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
-
-::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-}
-
-::-webkit-scrollbar-track:hover {
-    background-color: #d4d4d4;
-}
-
-.phone .message-you {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-}
-
-.phone .message-friend {
-    background-color: #d9dbdf;
-    margin-left: auto;
-    position: relative;
-}
-
-.phone .phone-container {
-    top: 40px;
-    position: relative;
-    height: 33rem;
-}
-
-.phone .phone-keyboard {
-    width: 100%;
-    height: 40px;
-}
-
-.phone::before {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 10px;
-    background: #000;
-    z-index: 100;
-    pointer-events: none;
-    border-radius: 999px;
-}
-
-.contacts-list a {
-    cursor: pointer
-}
-
-.user-name {
-    color: var(--color-primary);
-}
-
-.emoji-mart-static {
-    position: absolute;
-    z-index: 5;
-    bottom: var(--emoji-mart-bottom);
-    left: var(--emoji-mart-left);
-}
-</style>
 <script>
 import app from '@/js/firebase'
 import { getDatabase, onChildChanged, onValue, push, ref, update } from 'firebase/database';
 import { userUID, logout } from '@/js/signin-user.js'
 import skeletonContacts from '@/components/skeleton-contacts.vue';
+import Summary from '@/components/summary.vue';
 import moment from 'moment-timezone';
 import data from "emoji-mart-vue-fast/data/all.json";
 import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
-import github from '@/assets/github.svg';
-import whatsapp from '@/assets/whatsapp.svg';
 
 const db = getDatabase(app);
 
@@ -290,8 +189,6 @@ let emojiYouIndex = new EmojiIndex(data),
 export default {
     data: () => {
         return {
-            github: github,
-            whatsapp: whatsapp,
             chat: {
                 messageYou: '',
                 messageFriend: '',
@@ -339,7 +236,7 @@ export default {
 
     mounted() {
         const vue = this;
-        
+
         setTimeout(() => {
             this.getContacts();
         }, 0);
@@ -347,7 +244,8 @@ export default {
 
     components: {
         skeletonContacts,
-        Picker
+        Picker,
+        Summary
     },
 
     methods: {
@@ -447,22 +345,21 @@ export default {
             })
         },
 
-        showPopupEmojis(type, target) {
-            if (target) {
+        showPopupEmojis(type, event) {
+            if (event == true) {
                 const all = document.querySelectorAll(".emoji-mart:not(.hidden)");
 
                 all.forEach(el => {
                     el.classList.toggle("hidden")
                 })
             } else {
+                console.log(event.target.getBoundingClientRect())
                 document.querySelector(`.picker-emoji-${type}`).classList.toggle("hidden")
                 const el = document.querySelector(".input-message").getBoundingClientRect();
 
                 document.documentElement.style.setProperty("--emoji-mart-bottom", `${(el.bottom - el.bottom) + 50}px`)
 
-                if (type == 'friend') {
-                    document.documentElement.style.setProperty("--emoji-mart-left", `${(el.left - el.left) - 100}px`)
-                }
+                document.documentElement.style.setProperty("--emoji-mart-left", `${(el.left - el.left) - 150}px`)
 
                 document.removeEventListener("click", this.eventListenerClosePopupEmojis, false)
                 setTimeout(() => {
@@ -492,3 +389,87 @@ export default {
     }
 }
 </script>
+<style scoped>
+.phone {
+    padding: 12px;
+    height: 38.5rem;
+    border-radius: 54px;
+    border: 5px solid #84868a;
+    align-self: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #6a6a6a;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-track:hover {
+    background-color: #d4d4d4;
+}
+
+.phone .message-you {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.phone .message-friend {
+    background-color: #d9dbdf;
+    margin-left: auto;
+    position: relative;
+}
+
+.phone .phone-container {
+    top: 40px;
+    position: relative;
+    height: 33rem;
+}
+
+.phone .phone-keyboard {
+    width: 100%;
+    height: 40px;
+}
+
+.phone::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    background: #000;
+    z-index: 100;
+    pointer-events: none;
+    border-radius: 999px;
+}
+
+.contacts-list a {
+    cursor: pointer
+}
+
+.user-name {
+    color: var(--color-primary);
+}
+
+.emoji-mart-static {
+    position: absolute;
+    z-index: 5;
+    bottom: var(--emoji-mart-bottom);
+    left: var(--emoji-mart-left);
+}
+
+</style>

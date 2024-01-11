@@ -1,13 +1,13 @@
 import { initializeApp } from 'firebase/app'
  
 const firebaseConfig = {
-    apiKey: "AIzaSyAvSzOfAjK1JsctB77C8WyUHwhLGUWZnsU",
-    authDomain: "projetos-aprendizado-cf65c.firebaseapp.com",
-    databaseURL: "https://projetos-aprendizado-cf65c-default-rtdb.firebaseio.com",
-    projectId: "projetos-aprendizado-cf65c",
-    storageBucket: "projetos-aprendizado-cf65c.appspot.com",
-    messagingSenderId: "142471494784",
-    appId: "1:142471494784:web:99e70bed911d280359fa65"
+    apiKey: "AIzaSyDPjlz5Tfu8ZC27-SraIYKX1keIEsgCyl4",
+    authDomain: "andre-projetos.firebaseapp.com",
+    databaseURL: "https://andre-projetos-default-rtdb.firebaseio.com",
+    projectId: "andre-projetos",
+    storageBucket: "andre-projetos.appspot.com",
+    messagingSenderId: "858004312998",
+    appId: "1:858004312998:web:447dd20530eea88480f567"
 }
 
 const app = initializeApp(firebaseConfig)
