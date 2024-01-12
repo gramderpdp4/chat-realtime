@@ -257,9 +257,9 @@ export default {
 
                 const path = ref(db, `users/${this.uid}`);
 
-                onValue(path, (data) => {
-                    const died = data.val();
-                    const { contacts, ...user } = died
+                onValue(path, (output) => {
+                    const data = output.val();
+                    const { contacts, ...user } = data;
 
                     this.user = user
                     this.contacts = contacts
